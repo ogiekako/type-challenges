@@ -39,9 +39,9 @@
 
 /* _____________ Your Code Here _____________ */
 
-type Chainable = {
-  option(key: string, value: any): any
-  get(): any
+type Chainable<KV = {}> = {
+  option<K extends string, V>(key: K, value: K extends keyof KV ? never : V): Chainable<Omit<KV, K> & { [X in K]: V }>
+  get(): KV
 }
 
 /* _____________ Test Cases _____________ */

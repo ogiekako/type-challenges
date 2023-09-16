@@ -27,7 +27,9 @@
 
 /* _____________ Your Code Here _____________ */
 
-type RequiredByKeys<T, K> = any
+type RequiredByKeys<T, K extends keyof T = keyof T, R = {
+  [X in K]-?: T[X]
+} & { [X in Exclude<keyof T, K>]?: T[X] }> = { [X in keyof R]: R[X] }
 
 /* _____________ Test Cases _____________ */
 import type { Equal, Expect } from '@type-challenges/utils'

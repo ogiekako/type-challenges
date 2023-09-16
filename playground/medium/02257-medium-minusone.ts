@@ -19,7 +19,25 @@
 
 /* _____________ Your Code Here _____________ */
 
-type MinusOne<T extends number> = any
+type StrToNum<S> = S extends '0' ? 0 : S extends `0${infer R}` ? StrToNum<R> : S extends `${infer X extends number}` ? X : never
+
+type Minus1 = {
+  '1': '0'
+  '2': '1'
+  '3': '2'
+  '4': '3'
+  '5': '4'
+  '6': '5'
+  '7': '6'
+  '8': '7'
+  '9': '8'
+}
+
+type M1<S> = S extends `${infer F}${infer R}` ? M1<R> extends [infer NeedMinus, infer Rm1 extends string] ? (
+  NeedMinus extends false ? [false, `${F}${Rm1}`] : F extends keyof Minus1 ? [false, `${Minus1[F]}${Rm1}`] : [true, `9${Rm1}`]
+) : never : [true, '']
+
+type MinusOne<T extends number> = 0 extends T ? -1 : StrToNum<M1<`${T}`>[1]>
 
 /* _____________ Test Cases _____________ */
 import type { Equal, Expect } from '@type-challenges/utils'

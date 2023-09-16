@@ -18,7 +18,8 @@
 
 /* _____________ Your Code Here _____________ */
 
-type Trim<S extends string> = any
+type White = ' ' | '\t' | '\n'
+type Trim<S extends string> = S extends `${White}${infer R}` ? Trim<R> : S extends `${infer R}${White}` ? Trim<R> : S
 
 /* _____________ Test Cases _____________ */
 import type { Equal, Expect } from '@type-challenges/utils'

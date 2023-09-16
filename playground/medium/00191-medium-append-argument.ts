@@ -23,7 +23,9 @@
 
 /* _____________ Your Code Here _____________ */
 
-type AppendArgument<Fn, A> = any
+type MyParameters<F> = F extends (...args: infer A) => any ? A : never
+
+type AppendArgument<Fn extends (..._: any) => any, A> = (...args: [...MyParameters<Fn>, A]) => ReturnType<Fn>
 
 /* _____________ Test Cases _____________ */
 import type { Equal, Expect } from '@type-challenges/utils'

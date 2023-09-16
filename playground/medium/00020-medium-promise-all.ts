@@ -23,7 +23,11 @@
 
 /* _____________ Your Code Here _____________ */
 
-declare function PromiseAll(values: any): any
+type MyAwaited<T> = T extends Promise<infer X> ? X : T
+
+declare function PromiseAll<T extends any[]>(values: readonly [...T]): Promise<
+  { [X in keyof T]: MyAwaited<T[X]> }
+>
 
 /* _____________ Test Cases _____________ */
 import type { Equal, Expect } from '@type-challenges/utils'

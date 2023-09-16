@@ -18,7 +18,9 @@
 
 /* _____________ Your Code Here _____________ */
 
-type ReplaceAll<S extends string, From extends string, To extends string> = any
+type Char = 'a' | 'b' | 'c' | 'd' | 'e' | 'f' | 'g' | 'h' | 'i' | 'j' | 'k' | 'l' | 'm' | 'n' | 'o' | 'p' | 'q' | 'r' | 's' | 't' | 'u' | 'v' | 'w' | 'x' | 'y' | 'z'
+
+type ReplaceAll<S extends string, From extends string, To extends string> = From extends '' ? S : S extends `${From}${infer R}` ? `${To}${ReplaceAll<R, From, To>}` : S extends `${infer F extends Char}${infer R}` ? `${F}${ReplaceAll<R, From, To>}` : ''
 
 /* _____________ Test Cases _____________ */
 import type { Equal, Expect } from '@type-challenges/utils'

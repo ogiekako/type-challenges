@@ -24,7 +24,37 @@
 
 /* _____________ Your Code Here _____________ */
 
-type KebabCase<S> = any
+type Cap = {
+  'A': 'a'
+  'B': 'b'
+  'C': 'c'
+  'D': 'd'
+  'E': 'e'
+  'F': 'f'
+  'G': 'g'
+  'H': 'h'
+  'I': 'i'
+  'J': 'j'
+  'K': 'k'
+  'L': 'l'
+  'M': 'm'
+  'N': 'n'
+  'O': 'o'
+  'P': 'p'
+  'Q': 'q'
+  'R': 'r'
+  'S': 's'
+  'T': 't'
+  'U': 'u'
+  'V': 'v'
+  'W': 'w'
+  'X': 'x'
+  'Y': 'y'
+  'Z': 'z'
+}
+
+type KebabCase2<S> = S extends `${infer F extends keyof Cap}${infer R}` ? `-${Cap[F]}${KebabCase2<R>}` : S extends `${infer F}${infer R}` ? `${F}${KebabCase2<R>}` : ''
+type KebabCase<S> = S extends `${infer F}${infer R}` ? `${F extends keyof Cap ? Cap[F] : F}${KebabCase2<R>}` : ''
 
 /* _____________ Test Cases _____________ */
 import type { Equal, Expect } from '@type-challenges/utils'

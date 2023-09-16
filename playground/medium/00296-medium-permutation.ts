@@ -16,7 +16,7 @@
 
 /* _____________ Your Code Here _____________ */
 
-type Permutation<T> = any
+type Permutation<T, Pref extends any[] = [], Orig = T> = [T] extends [never] ? Pref : T extends any ? Permutation<Exclude<Orig, T>, [...Pref, T]> : never
 
 /* _____________ Test Cases _____________ */
 import type { Equal, Expect } from '@type-challenges/utils'

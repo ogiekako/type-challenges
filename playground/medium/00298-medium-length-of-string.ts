@@ -12,7 +12,7 @@
 
 /* _____________ Your Code Here _____________ */
 
-type LengthOfString<S extends string> = any
+type LengthOfString<S extends string, A extends any[] = []> = S extends `${string}${infer R}` ? LengthOfString<R, [...A, 0]> : A['length']
 
 /* _____________ Test Cases _____________ */
 import type { Equal, Expect } from '@type-challenges/utils'

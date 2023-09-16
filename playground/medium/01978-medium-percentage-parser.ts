@@ -32,7 +32,10 @@
 
 /* _____________ Your Code Here _____________ */
 
-type PercentageParser<A extends string> = any
+type Dig = '0' | '1' | '2' | '3' | '4' | '5' | '6' | '7' | '8' | '9'
+
+type Parse2<A extends string, Pref extends string = ''> = A extends `${infer N extends Dig}${infer R}` ? Parse2<R, `${Pref}${N}`> : [Pref, A]
+type PercentageParser<A extends string> = A extends `${infer S extends '+' | '-'}${infer R}` ? [S, ...Parse2<R>] : ['', ...Parse2<A>]
 
 /* _____________ Test Cases _____________ */
 import type { Equal, Expect } from '@type-challenges/utils'
