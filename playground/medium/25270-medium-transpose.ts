@@ -18,7 +18,11 @@
 
 /* _____________ Your Code Here _____________ */
 
-type Transpose<M extends number[][]> = any
+type Transpose<M extends number[][], ColIndex extends any[] = []> = ColIndex['length'] extends M[0]['length'] ? [] : [
+  TakeCol<M, ColIndex['length']>, ...Transpose<M, [0, ...ColIndex]>,
+]
+
+type TakeCol<M, Col extends number> = M extends [infer M1 extends any[], ...infer M2] ? [M1[Col], ...TakeCol<M2, Col>] : []
 
 /* _____________ Test Cases _____________ */
 import type { Equal, Expect } from '@type-challenges/utils'

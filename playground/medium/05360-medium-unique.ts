@@ -20,7 +20,9 @@
 
 /* _____________ Your Code Here _____________ */
 
-type Unique<T> = any
+type Unique<T, Seen extends any[] = []> = T extends [infer F, ...infer R] ? Contains<Seen, F> extends true ? Unique<R, Seen> : [F, ...Unique<R, [...Seen, F]>] : []
+
+type Contains<S, U> = S extends [infer F, ...infer R] ? Equal<F, U> extends true ? true : Contains<R, U> : false
 
 /* _____________ Test Cases _____________ */
 import type { Equal, Expect } from '@type-challenges/utils'

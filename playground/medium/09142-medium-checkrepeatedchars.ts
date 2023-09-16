@@ -19,7 +19,7 @@
 
 /* _____________ Your Code Here _____________ */
 
-type CheckRepeatedChars<T extends string> = any
+type CheckRepeatedChars<T extends string, Seen extends string = never> = T extends `${infer F}${infer R}` ? F extends Seen ? true : CheckRepeatedChars<R, Seen | F> : false
 
 /* _____________ Test Cases _____________ */
 import type { Equal, Expect } from '@type-challenges/utils'

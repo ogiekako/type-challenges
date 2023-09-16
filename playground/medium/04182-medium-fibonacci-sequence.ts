@@ -21,7 +21,9 @@
 
 /* _____________ Your Code Here _____________ */
 
-type Fibonacci<T extends number> = any
+// [F(N), F(N-1)]
+type Fib<N extends any[]> = N extends [0, ...infer R] ? (Fib<R> extends [infer Fm1 extends any[], infer Fm2 extends any[]] ? [[...Fm1, ...Fm2], Fm1] : never) : [[], [0]]
+type Fibonacci<T extends number, N extends any[] = []> = N['length'] extends T ? Fib<N>[0]['length'] : Fibonacci<T, [...N, 0]>
 
 /* _____________ Test Cases _____________ */
 import type { Equal, Expect } from '@type-challenges/utils'

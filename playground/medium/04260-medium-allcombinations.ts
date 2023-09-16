@@ -19,7 +19,8 @@
 
 /* _____________ Your Code Here _____________ */
 
-type AllCombinations<S> = any
+type Ins<F extends string, S> = S extends `${infer H}${infer R}` ? `${F}${S}` | `${H}${Ins<F, R>}` : F
+type AllCombinations<S> = S extends `${infer F}${infer R}` ? Ins<F, AllCombinations<R>> | AllCombinations<R> : ''
 
 /* _____________ Test Cases _____________ */
 import type { Equal, Expect } from '@type-challenges/utils'

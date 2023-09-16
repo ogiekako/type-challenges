@@ -17,7 +17,15 @@
 
 /* _____________ Your Code Here _____________ */
 
-type JSONSchema2TS<T> = any
+type JSONSchema2TS<T> = T extends { enum: any[] } ? T['enum'][number] : T extends { type: 'string' } ? string : T extends { type: 'number' } ? number : T extends { type: 'boolean' } ? boolean : T extends { type: 'object' } ? (
+  T extends { properties: any } ? T extends { required: any[] } ? Omit<{
+    [X in Exclude<keyof T['properties'], T['required'][number]>]?: JSONSchema2TS<T['properties'][X]>
+  } & { [X in T['required'][number]]: JSONSchema2TS<T['properties'][X]> }, never> : {
+    [X in keyof T['properties']]?: JSONSchema2TS<T['properties'][X]>
+  } : Record<string, unknown>
+) : T extends { type: 'array' } ? (
+  T extends { items: any } ? JSONSchema2TS<T['items']>[] : unknown[]
+) : never
 
 /* _____________ Test Cases _____________ */
 import type { Equal, Expect } from '@type-challenges/utils'

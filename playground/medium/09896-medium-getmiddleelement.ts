@@ -22,7 +22,9 @@
 
 /* _____________ Your Code Here _____________ */
 
-type GetMiddleElement<T> = any
+type GetMiddleElement<T, N extends any[] = [], Np1 extends any[] = [...N, 0]> = T extends [infer F, ...infer R] ? Near<R, N> extends true ? [F, ...GetMiddleElement<R, Np1>] : GetMiddleElement<R, Np1> : []
+
+type Near<T extends any[], N extends any[]> = T['length'] extends N['length'] | [...N, 0]['length'] ? true : [...T, 0]['length'] extends N['length'] ? true : false
 
 /* _____________ Test Cases _____________ */
 import type { Equal, Expect } from '@type-challenges/utils'

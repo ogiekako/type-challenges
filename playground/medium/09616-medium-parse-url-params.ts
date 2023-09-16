@@ -18,7 +18,9 @@
 
 /* _____________ Your Code Here _____________ */
 
-type ParseUrlParams<T> = any
+type ParseUrlParams<T, Param extends string = never> = T extends `${infer F}${infer R}` ? (
+  F extends ':' ? ParseUrlParams<R, ''> : [Param] extends [never] ? ParseUrlParams<R, never> : F extends '/' ? ParseUrlParams<R, never> | Param : ParseUrlParams<R, `${Param}${F}`>
+) : Param
 
 /* _____________ Test Cases _____________ */
 import type { Equal, Expect } from '@type-challenges/utils'

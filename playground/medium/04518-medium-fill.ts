@@ -24,7 +24,12 @@ type Fill<
   N,
   Start extends number = 0,
   End extends number = T['length'],
-> = any
+  Pref extends unknown[] = [],
+> = T extends [infer F, ...infer R] ? (
+  [Le<Start, Pref['length']>, Le<[...Pref, 0]['length'], End>] extends [true, true] ? Fill<R, N, Start, End, [...Pref, N]> : Fill<R, N, Start, End, [...Pref, F]>
+) : Pref
+
+type Le<A, B, N extends unknown[] = []> = A extends N['length'] ? true : B extends N['length'] ? false : Le<A, B, [0, ...N]>
 
 /* _____________ Test Cases _____________ */
 import type { Equal, Expect } from '@type-challenges/utils'

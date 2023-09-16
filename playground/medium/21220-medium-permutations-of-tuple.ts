@@ -19,15 +19,17 @@
    * | [unknown, 1, number]
    * | [number, unknown, 1]
    * | [unknown, number ,1]
-   */
-  ```
+   /
 
   > View on GitHub: https://tsch.js.org/21220
 */
 
 /* _____________ Your Code Here _____________ */
 
-type PermutationsOfTuple<T extends unknown[]> = any
+type PermutationsOfTuple<T extends unknown[]> = T extends [infer F, ...infer R extends unknown[]] ?
+  Ins<F, PermutationsOfTuple<R>> : []
+
+type Ins<S, T extends unknown[]> = [S, ...T] | (T extends [infer F, ...infer R] ? [F, ...Ins<S, R>] : never)
 
 /* _____________ Test Cases _____________ */
 import type { Equal, Expect, ExpectFalse } from '@type-challenges/utils'
@@ -54,7 +56,7 @@ type cases = [
     | [number, unknown, 1]
     | [unknown, number, 1]
   >>,
-  ExpectFalse<Equal<PermutationsOfTuple<[ 1, number, unknown ]>, [unknown]>>,
+  ExpectFalse<Equal<PermutationsOfTuple<[1, number, unknown]>, [unknown]>>,
 ]
 
 /* _____________ Further Steps _____________ */

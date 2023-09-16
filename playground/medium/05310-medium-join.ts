@@ -19,7 +19,7 @@
 
 /* _____________ Your Code Here _____________ */
 
-type Join<T, U> = any
+type Join<T, U extends string | number> = T extends [] ? '' : T extends [infer F extends string] ? `${F}` : T extends [infer F extends string, ...infer R] ? `${F}${U}${Join<R, U>}` : never
 
 /* _____________ Test Cases _____________ */
 import type { Equal, Expect } from '@type-challenges/utils'

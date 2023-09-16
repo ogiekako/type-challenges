@@ -12,7 +12,7 @@
 
 /* _____________ Your Code Here _____________ */
 
-type ReplaceFirst<T extends readonly unknown[], S, R> = any
+type ReplaceFirst<T extends readonly unknown[], S, R> = T extends [infer T1, ...infer T2] ? T1 extends S ? [R, ...T2] : [T1, ...ReplaceFirst<T2, S, R>] : []
 
 /* _____________ Test Cases _____________ */
 import type { Equal, Expect } from '@type-challenges/utils'

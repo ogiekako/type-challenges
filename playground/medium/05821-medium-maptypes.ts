@@ -39,7 +39,15 @@
 
 /* _____________ Your Code Here _____________ */
 
-type MapTypes<T, R> = any
+type Mapper = { mapFrom: any; mapTo: any }
+
+type Map<T, R extends Mapper, M = R extends { mapFrom: T } ? R['mapTo'] : never> = [M] extends [never] ? T : M
+
+type MapTypes<T, R extends Mapper> = {
+  [X in keyof T]: Map<T[X], R>
+}
+
+type X = MapTypes<{ name: string; date: Date }, { mapFrom: string; mapTo: boolean } | { mapFrom: Date; mapTo: string }>
 
 /* _____________ Test Cases _____________ */
 import type { Equal, Expect } from '@type-challenges/utils'

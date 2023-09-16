@@ -19,7 +19,8 @@
 
 /* _____________ Your Code Here _____________ */
 
-type Chunk = any
+type Chunk<A, N> = A extends [] ? [] : Split<A, N> extends [infer F, infer R] ? [F, ...Chunk<R, N>] : never
+type Split<A, N, R extends any[] = []> = R['length'] extends N ? [R, A] : A extends [infer A1, ...infer A2] ? Split<A2, N, [...R, A1]> : [R, []]
 
 /* _____________ Test Cases _____________ */
 import type { Equal, Expect } from '@type-challenges/utils'

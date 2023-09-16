@@ -16,7 +16,7 @@
 
 /* _____________ Your Code Here _____________ */
 
-type NumberRange<L, H> = any
+type NumberRange<L, H, R = never, N extends any[] = [], Np1 extends any[] = [...N, 0]> = N['length'] extends H ? R | H : N['length'] extends L ? NumberRange<L, H, L, Np1> : [R] extends [never] ? NumberRange<L, H, R, Np1> : NumberRange<L, H, R | N['length'], Np1>
 
 /* _____________ Test Cases _____________ */
 import type { Equal, Expect } from '@type-challenges/utils'

@@ -37,7 +37,9 @@
 
 /* _____________ Your Code Here _____________ */
 
-type ToPrimitive = any
+type ToPrimitive<T> = T extends Function ? Function : T extends object ? {
+  [X in keyof T]: ToPrimitive<T[X]>
+} : T extends number ? number : T extends string ? string : T extends boolean ? boolean : never
 
 /* _____________ Test Cases _____________ */
 import type { Equal, Expect } from '@type-challenges/utils'

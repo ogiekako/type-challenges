@@ -25,7 +25,15 @@
 
 /* _____________ Your Code Here _____________ */
 
-type GreaterThan<T extends number, U extends number> = any
+type Dig = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9
+
+type GtSmall<T extends number, U extends number, N extends any[] = []> = N['length'] extends T ? false : N['length'] extends U ? true : GtSmall<T, U, [...N, 0]>
+
+type StrLen<S, A extends any[] = []> = S extends `${string}${infer R}` ? StrLen<R, [...A, 0]> : A['length']
+
+type Gt<T extends string, U extends string> = GreaterThan<StrLen<T>, StrLen<U>> extends true ? true : GreaterThan<StrLen<U>, StrLen<T>> extends true ? false : [T, U] extends [`${infer T1 extends number}${infer T2}`, `${infer U1 extends number}${infer U2}`] ? (GreaterThan<T1, U1> extends true ? true : GreaterThan<U1, T1> extends true ? false : Gt<T2, U2>) : never
+
+type GreaterThan<T extends number, U extends number> = T extends U ? false : T extends Dig ? GtSmall<T, U> : U extends Dig ? GtSmall<T, U> : Gt<`${T}`, `${U}`>
 
 /* _____________ Test Cases _____________ */
 import type { Equal, Expect } from '@type-challenges/utils'

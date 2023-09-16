@@ -12,7 +12,8 @@
 
 /* _____________ Your Code Here _____________ */
 
-type FindEles<T extends any[]> = any
+type FindEles<T extends any[], Pref extends any[] = []> = T extends [infer F, ...infer R] ?
+  F extends [...Pref, ...R][number] ? FindEles<R, [...Pref, F]> : [F, ...FindEles<R, Pref>] : []
 
 /* _____________ Test Cases _____________ */
 import type { Equal, Expect } from '@type-challenges/utils'

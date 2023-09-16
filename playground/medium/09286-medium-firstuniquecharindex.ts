@@ -12,7 +12,8 @@
 
 /* _____________ Your Code Here _____________ */
 
-type FirstUniqueCharIndex<T extends string> = any
+type FirstUniqueCharIndex<T extends string, Orig = T, N extends any[] = []> = T extends `${infer F}${infer R}` ? Count<Orig, F> extends 1 ? N['length'] : FirstUniqueCharIndex<R, Orig, [...N, 0]> : -1
+type Count<S, T, N extends any[] = []> = S extends `${infer F}${infer R}` ? F extends T ? Count<R, T, [...N, 0]> : Count<R, T, N> : N['length']
 
 /* _____________ Test Cases _____________ */
 import type { Equal, Expect } from '@type-challenges/utils'

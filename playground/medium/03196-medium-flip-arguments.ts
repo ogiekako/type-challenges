@@ -21,7 +21,8 @@
 
 /* _____________ Your Code Here _____________ */
 
-type FlipArguments<T> = any
+type Rev<T> = T extends [infer F, ...infer R] ? [...Rev<R>, F] : []
+type FlipArguments<T extends Function> = T extends (...args: infer A) => infer R ? (...args: Rev<A>) => R : never
 
 /* _____________ Test Cases _____________ */
 import type { Equal, Expect } from '@type-challenges/utils'

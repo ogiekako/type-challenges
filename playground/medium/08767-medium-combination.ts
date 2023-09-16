@@ -18,14 +18,19 @@
 
 /* _____________ Your Code Here _____________ */
 
-type Combination<T extends string[]> = any
+type Combination<T extends string[], U = Comb<T>> = U extends [] ? never : U extends any ? Join<U> : never
+
+type Comb<T> = T extends [infer F, ...infer R] ? Ins<F, Comb<R>> | Comb<R> : []
+type Ins<S, T> = T extends [infer F, ...infer R] ? [S, ...T] | [F, ...Ins<S, R>] : [S]
+
+type Join<S> = S extends [] ? '' : S extends [infer F] ? F : S extends [infer F extends string, ...infer R] ? `${F} ${Join<R>}` : ''
 
 /* _____________ Test Cases _____________ */
 import type { Equal, Expect } from '@type-challenges/utils'
 
 type cases = [
   Expect<Equal<Combination<['foo', 'bar', 'baz']>,
-  'foo' | 'bar' | 'baz' | 'foo bar' | 'foo bar baz' | 'foo baz' | 'foo baz bar' | 'bar foo' | 'bar foo baz' | 'bar baz' | 'bar baz foo' | 'baz foo' | 'baz foo bar' | 'baz bar' | 'baz bar foo'>>,
+    'foo' | 'bar' | 'baz' | 'foo bar' | 'foo bar baz' | 'foo baz' | 'foo baz bar' | 'bar foo' | 'bar foo baz' | 'bar baz' | 'bar baz foo' | 'baz foo' | 'baz foo bar' | 'baz bar' | 'baz bar foo'>>,
 ]
 
 /* _____________ Further Steps _____________ */

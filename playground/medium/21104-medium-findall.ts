@@ -12,7 +12,7 @@
 
 /* _____________ Your Code Here _____________ */
 
-type FindAll<T extends string, P extends string> = any
+type FindAll<T extends string, P extends string, N extends any[] = []> = P extends '' ? [] : T extends `${string}${infer R}` ? [...(T extends `${P}${string}` ? [N['length']] : []), ...FindAll<R, P, [...N, 0]>] : []
 
 /* _____________ Test Cases _____________ */
 import type { Equal, Expect } from '@type-challenges/utils'

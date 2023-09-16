@@ -12,7 +12,9 @@
 
 /* _____________ Your Code Here _____________ */
 
-type Integer<T> = any
+type Dig = '0' | '1' | '2' | '3' | '4' | '5' | '6' | '7' | '8' | '9'
+type IsInt<T> = T extends `${infer F}${infer R}` ? F extends Dig ? IsInt<R> : false : true
+type Integer<T extends string | number> = IsInt<`${T}`> extends true ? T : never
 
 /* _____________ Test Cases _____________ */
 import type { Equal, Expect } from '@type-challenges/utils'

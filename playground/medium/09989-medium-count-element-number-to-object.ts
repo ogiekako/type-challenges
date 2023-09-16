@@ -33,7 +33,13 @@
 
 /* _____________ Your Code Here _____________ */
 
-type CountElementNumberToObject<T> = any
+type Flat<T> = [T] extends [never] ? [] : T extends [infer F, ...infer R] ? [...Flat<F>, ...Flat<R>] : [T]
+
+type CountElementNumberToObject<T, F extends any[] = Flat<T>> = {
+  [X in F[number]]: Count<F, X>
+}
+
+type Count<T, U, N extends any[] = []> = T extends [infer F, ...infer R] ? U extends F ? Count<R, U, [...N, 0]> : Count<R, U, N> : N['length']
 
 /* _____________ Test Cases _____________ */
 import type { Equal, Expect } from '@type-challenges/utils'

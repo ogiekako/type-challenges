@@ -18,7 +18,9 @@
 
 /* _____________ Your Code Here _____________ */
 
-type TrimRight<S extends string> = any
+type Rev<S> = S extends `${infer F}${infer R}` ? `${Rev<R>}${F}` : ''
+type TrimLeft<S> = S extends `${' ' | '\n' | '\t'}${infer R}` ? TrimLeft<R> : S
+type TrimRight<S extends string> = Rev<TrimLeft<Rev<S>>>
 
 /* _____________ Test Cases _____________ */
 import type { Equal, Expect } from '@type-challenges/utils'
