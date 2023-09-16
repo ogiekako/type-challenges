@@ -12,7 +12,7 @@
 
 /* _____________ Your Code Here _____________ */
 
-type Triangular<N extends number> = any
+type Triangular<N extends number, A extends 0[] = [], Acc extends 0[] = []> = A['length'] extends N ? [...Acc, ...A]['length'] : Triangular<N, [0, ...A], [...A, ...Acc]>
 
 /* _____________ Test Cases _____________ */
 import type { Equal, Expect } from '@type-challenges/utils'

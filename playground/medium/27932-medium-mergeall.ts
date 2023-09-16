@@ -22,20 +22,26 @@
 
 /* _____________ Your Code Here _____________ */
 
-type MergeAll<XS> = any
+type MergeAll<XS extends object[], K = XS[number]> = {
+  [X in K extends any ? keyof K : never]: Take<XS, X>
+}
+
+type Take<XS, K> = XS extends [infer F, ...infer R] ? Take<R, K> | (
+  K extends keyof F ? F[K] : never
+) : never
 
 /* _____________ Test Cases _____________ */
 import type { Equal, Expect } from '@type-challenges/utils'
 
 type cases = [
-  Expect<Equal<MergeAll<[]>, {} >>,
+  Expect<Equal<MergeAll<[]>, {}>>,
   Expect<Equal<MergeAll<[{ a: 1 }]>, { a: 1 }>>,
   Expect<Equal<
     MergeAll<[{ a: string }, { a: string }]>,
     { a: string }>
   >,
   Expect<Equal<
-    MergeAll<[{ }, { a: string }]>,
+    MergeAll<[{}, { a: string }]>,
     { a: string }>
   >,
   Expect<Equal<

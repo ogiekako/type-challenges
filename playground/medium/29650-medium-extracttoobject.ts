@@ -20,7 +20,13 @@
 
 /* _____________ Your Code Here _____________ */
 
-type ExtractToObject<T, U> = any
+type ExtractToObject<T, U extends keyof T> = {
+  [X in keyof T | (U extends keyof T ? keyof T[U] : never) as X extends U ? never : X]: (
+    X extends keyof T[U] ? T[U][X] : X extends keyof T ? T[X] : never
+  )
+}
+
+type X = ExtractToObject<test1, 'myProp'>
 
 /* _____________ Test Cases _____________ */
 import type { Equal, Expect } from '@type-challenges/utils'

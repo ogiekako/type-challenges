@@ -30,7 +30,11 @@
 
 /* _____________ Your Code Here _____________ */
 
-type DeepOmit = any
+type DeepOmit<T, U, Spl extends [string, string] = Split<U>> = {
+  [X in keyof T as[X, ''] extends Spl ? never : X]: DeepOmit<T[X], U, Split<Spl[1]>>
+}
+
+type Split<S, Pref extends string = ''> = S extends '' ? [Pref, ''] : S extends `.${infer R}` ? [Pref, R] : S extends `${infer F}${infer R}` ? Split<R, `${Pref}${F}`> : never
 
 /* _____________ Test Cases _____________ */
 import type { Equal, Expect } from '@type-challenges/utils'

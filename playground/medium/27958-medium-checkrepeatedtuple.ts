@@ -19,7 +19,9 @@
 
 /* _____________ Your Code Here _____________ */
 
-type CheckRepeatedTuple<T extends unknown[]> = any
+type CheckRepeatedTuple<T extends unknown[]> = T extends [infer F, ...infer R] ? Contains<R, F> extends true ? true : CheckRepeatedTuple<R> : false
+
+type Contains<T, U> = T extends [infer F, ...infer R] ? Equal<F, U> extends true ? true : Contains<R, U> : false
 
 /* _____________ Test Cases _____________ */
 import type { Equal, Expect } from '@type-challenges/utils'
