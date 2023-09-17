@@ -18,7 +18,48 @@
 
 /* _____________ Your Code Here _____________ */
 
-type CapitalizeWords<S extends string> = any
+type Alpha = {
+  'a': 'A'
+  'b': 'B'
+  'c': 'C'
+  'd': 'D'
+  'e': 'E'
+  'f': 'F'
+  'g': 'G'
+  'h': 'H'
+  'i': 'I'
+  'j': 'J'
+  'k': 'K'
+  'l': 'L'
+  'm': 'M'
+  'n': 'N'
+  'o': 'O'
+  'p': 'P'
+  'q': 'Q'
+  'r': 'R'
+  's': 'S'
+  't': 'T'
+  'u': 'U'
+  'v': 'V'
+  'w': 'W'
+  'x': 'X'
+  'y': 'Y'
+  'z': 'Z'
+}
+
+// [string, string]
+type Cut<S, Pref extends string = ''> = S extends `${infer F}${infer R}` ? (
+  F extends (keyof Alpha | Alpha[keyof Alpha]) ? (
+    Cut<R, `${Pref}${F}`>
+  ) : [Pref, S]
+) : [Pref, '']
+
+type CapitalizeWords<S extends string> = Cut<S> extends [infer Letters extends string, infer Rest] ? (
+  `${Capitalize<Letters>}${Rest extends `${infer F}${infer R}` ? (
+    `${F}${CapitalizeWords<R>}`
+  ) : ''
+  }`
+) : never
 
 /* _____________ Test Cases _____________ */
 import type { Equal, Expect } from '@type-challenges/utils'

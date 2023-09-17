@@ -38,7 +38,13 @@
 
 /* _____________ Your Code Here _____________ */
 
-type DeepObjectToUniq<O extends object> = any
+type DeepObjectToUniq<O extends object, Tag = [O]> = {
+  [X in keyof O]: O[X] extends object ? DeepObjectToUniq<O[X], [Tag, X]> : O[X]
+} & {
+  [_: number]: Tag
+}
+
+type X = UniqFoo['baz']
 
 /* _____________ Test Cases _____________ */
 import type { Equal, IsFalse, IsTrue } from '@type-challenges/utils'

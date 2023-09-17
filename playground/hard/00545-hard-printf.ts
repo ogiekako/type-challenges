@@ -21,7 +21,20 @@
 
 /* _____________ Your Code Here _____________ */
 
-type Format<T extends string> = any
+type Ty = {
+  s: string
+  d: number
+}
+
+type Format<T extends string, P = false> = T extends `${infer F}${infer R}` ? (
+  P extends true ? (
+    F extends keyof Ty ? (
+      (_: Ty[F]) => Format<R, false>
+    ) : Format<R, false>
+  ) : (
+    F extends '%' ? Format<R, true> : Format<R, false>
+  )
+) : string
 
 /* _____________ Test Cases _____________ */
 import type { Equal, Expect } from '@type-challenges/utils'

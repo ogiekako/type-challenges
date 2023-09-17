@@ -33,7 +33,13 @@
 
 /* _____________ Your Code Here _____________ */
 
-type Get<T, K> = string
+type Get<T, K> = K extends keyof T ? T[K] : Split<K> extends [infer F, infer R] ? (
+  F extends keyof T ? Get<T[F], R> : never
+) : never
+
+type Split<S, Pref extends string = ''> = S extends `${infer F}${infer R}` ? (
+  F extends '.' ? [Pref, R] : Split<R, `${Pref}${F}`>
+) : [Pref, never]
 
 /* _____________ Test Cases _____________ */
 import type { Equal, Expect } from '@type-challenges/utils'

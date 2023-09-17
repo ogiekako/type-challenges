@@ -18,7 +18,13 @@
 
 /* _____________ Your Code Here _____________ */
 
-type LengthOfString<S extends string> = number
+type Take32<T, N extends 0[] = []> = N['length'] extends 32 ? [N, T] : T extends `${string}${infer R}` ? (
+  Take32<R, [0, ...N]>
+) : [N, '']
+
+type LengthOfString<S extends string, N extends 0[] = []> = S extends '' ? N['length'] : Take32<S> extends [infer T extends 0[], infer R extends string] ? (
+  LengthOfString<R, [...T, ...N]>
+) : never
 
 /* _____________ Test Cases _____________ */
 import type { Equal, IsTrue } from '@type-challenges/utils'

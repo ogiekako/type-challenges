@@ -12,7 +12,7 @@
 
 /* _____________ Your Code Here _____________ */
 
-type ToNumber<S extends string> = any
+type ToNumber<S extends string> = S extends `${infer I extends number}` ? I : never
 
 /* _____________ Test Cases _____________ */
 import type { Equal, Expect } from '@type-challenges/utils'

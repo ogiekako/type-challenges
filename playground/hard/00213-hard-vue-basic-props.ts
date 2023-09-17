@@ -48,12 +48,38 @@
 
 /* _____________ Your Code Here _____________ */
 
-declare function VueBasicProps(options: any): any
+declare function VueBasicProps<P, D, C, M>(options: Options<P, D, C, M>): any
+
+type Options<P, D, C, M> = {
+  props: P
+  data: (this: Prop<P>) => D
+  computed: C & Record<string, ThisType<D>>
+  methods: M & ThisType<ToGet<C> & M & Prop<P>>
+}
+
+type ToGet<T> = {
+  [X in keyof T]: T[X] extends { (): infer I } ? I : T[X]
+}
+
+type Prop<T> = {
+  [X in keyof T]: PropType<T[X]>
+}
+
+type PropType<T> = {} extends T ? any : T extends {
+  type: infer Ty
+} ? ToType<Ty> : ToType<T>
+
+type ToType<X> = X extends Array<infer F> ? ToType<F> :
+  X extends { (..._: any): infer I } ? I : X extends {
+    new(): infer I
+  } ? I : never
+
+declare function alert(..._: any): void
 
 /* _____________ Test Cases _____________ */
 import type { Debug, Equal, Expect, IsAny } from '@type-challenges/utils'
 
-class ClassA {}
+class ClassA { }
 
 VueBasicProps({
   props: {

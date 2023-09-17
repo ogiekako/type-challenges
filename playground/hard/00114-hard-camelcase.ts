@@ -19,7 +19,15 @@
 
 /* _____________ Your Code Here _____________ */
 
-type CamelCase<S extends string> = any
+type CamelCase<S extends string> = Camel<Lowercase<S>>
+
+type Camel<S> = S extends `${infer Fst}${infer Snd}${infer Rest}` ? (
+  Fst extends '_' ? (
+    Snd extends Uppercase<Snd> ? (
+      `${Fst}${Camel<`${Snd}${Rest}`>}`
+    ) : `${Uppercase<Snd>}${Camel<Rest>}`
+  ) : `${Fst}${Camel<`${Snd}${Rest}`>}`
+) : S
 
 /* _____________ Test Cases _____________ */
 import type { Equal, Expect } from '@type-challenges/utils'
