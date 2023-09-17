@@ -18,7 +18,9 @@
 
 /* _____________ Your Code Here _____________ */
 
-type GetRequired<T> = any
+type GetRequired<T> = {
+  [X in keyof T as T[X] extends Required<T>[X] ? X : never]: T[X]
+}
 
 /* _____________ Test Cases _____________ */
 import type { Equal, Expect } from '@type-challenges/utils'

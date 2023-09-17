@@ -18,7 +18,9 @@
 
 /* _____________ Your Code Here _____________ */
 
-type GetOptional<T> = any
+type GetOptional<T> = {
+  [X in keyof T as T[X] extends Required<T>[X] ? never : X]: T[X]
+}
 
 /* _____________ Test Cases _____________ */
 import type { Equal, Expect } from '@type-challenges/utils'

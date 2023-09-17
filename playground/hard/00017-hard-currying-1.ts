@@ -28,7 +28,11 @@
 
 /* _____________ Your Code Here _____________ */
 
-declare function Currying(fn: any): any
+declare function Currying<T>(fn: T): Carried<T>
+
+type Carried<T> = T extends (_0: infer Fst, ..._1: infer Rest) => infer R ? (
+  Rest extends [] ? T : (_: Fst) => Carried<(..._: Rest) => R>
+) : T
 
 /* _____________ Test Cases _____________ */
 import type { Equal, Expect } from '@type-challenges/utils'

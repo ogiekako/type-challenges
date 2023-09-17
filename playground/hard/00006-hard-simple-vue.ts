@@ -46,7 +46,19 @@
 
 /* _____________ Your Code Here _____________ */
 
-declare function SimpleVue(options: any): any
+declare function SimpleVue<D, C extends Record<string, (this: D) => any>, M>(options: OptionType<D, C, M>): any
+
+type Get<C> = {
+  [X in keyof C]: C[X] extends () => infer R ? R : never
+}
+
+type OptionType<D, C, M> = {
+  data: (this: unknown) => D
+  computed: C
+  methods: M & ThisType<D & Get<C> & M>
+}
+
+declare function alert(x: any): any
 
 /* _____________ Test Cases _____________ */
 import type { Equal, Expect } from '@type-challenges/utils'

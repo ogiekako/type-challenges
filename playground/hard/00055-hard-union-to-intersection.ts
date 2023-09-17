@@ -18,7 +18,7 @@
 
 /* _____________ Your Code Here _____________ */
 
-type UnionToIntersection<U> = any
+type UnionToIntersection<U> = (U extends any ? (_: U) => void : never) extends (_: infer T) => void ? T : never
 
 /* _____________ Test Cases _____________ */
 import type { Equal, Expect } from '@type-challenges/utils'
