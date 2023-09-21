@@ -1,0 +1,10 @@
+{
+    "name": "playground",
+    "devDependencies": {
+        "tsc": "^2.0.4",
+        "typescript": "^5.2.2"
+    },
+    "scripts": {
+        "test": "tsc -p . --noEmit"
+      }
+}

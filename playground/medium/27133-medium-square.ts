@@ -59,7 +59,7 @@ type Carry<S extends [boolean, keyof Nxt], C extends boolean> = C extends false 
 // [boolean, string]
 type AddRev<A extends string, B extends string, C extends boolean> =
   [A, B] extends [`${infer A1 extends keyof Sum1}${infer A2}`, `${infer B1 extends number}${infer B2}`] ? (
-    B1 extends infer B1 extends keyof Sum1[A1] ? (
+    B1 extends infer B1 extends keyof Sum1[keyof Sum1] ? (
       Carry<Sum1[A1][B1], C> extends [infer C2 extends boolean, infer S2 extends number] ? (
         AddRev<A2, B2, C2> extends [infer C3, infer S3 extends string] ? (
           [C3, `${S3}${S2}`]

@@ -54,9 +54,11 @@
 
 /* _____________ Your Code Here _____________ */
 
-type DeepMutable<T extends object> = T extends Function ? T : T extends object ? {
-  -readonly [X in keyof T]: DeepMutable<T[X]>
+type DeepMutableInner<T> = T extends Function ? T : T extends object ? {
+  -readonly [X in keyof T]: DeepMutableInner<T[X]>
 } : T
+
+type DeepMutable<T extends object> = DeepMutableInner<T>
 
 /* _____________ Test Cases _____________ */
 import type { Equal, Expect } from '@type-challenges/utils'
